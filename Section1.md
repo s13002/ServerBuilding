@@ -60,15 +60,17 @@ DHCPでIPアドレスを取得できますので、[RedHat Enterprise Linux 7の
 yumやwgetを使用する時のproxyの設定を行なってください。
 
 *vimで/etc/profileを開いて最終行に
- MY_PROXY_URL="http://172.16.40.1:8888"
- HTTP_PROXY=$MY_PROXY_URL
- HTTPS_PROXY=$MY_PROXY_URL
- FTP_PROXY=$MY_PROXY_URL
- http_proxy=$MY_PROXY_URL
- https_proxy=$MY_PROXY_URL
- ftp_proxy=$MY_PROXY_URL
- export HTTP_PROXY HTTPS_PROXY FTP_PROXY http_proxy https_proxy ftp_proxy
-　を追記する
+
+    MY_PROXY_URL="http://172.16.40.1:8888"
+    HTTP_PROXY=$MY_PROXY_URL
+    HTTPS_PROXY=$MY_PROXY_URL
+    FTP_PROXY=$MY_PROXY_URL
+    http_proxy=$MY_PROXY_URL
+    https_proxy=$MY_PROXY_URL
+    ftp_proxy=$MY_PROXY_URL
+    export HTTP_PROXY HTTPS_PROXY FTP_PROXY http_proxy https_proxy ftp_proxy
+
+を追記する
 
 *その後に
  source /etc/profile
