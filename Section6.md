@@ -17,9 +17,9 @@
 ### AMI(Amazon Machine Image)を作る
 AWSアカウントの作成し、先生から鍵のようなものをメールでもらう。
 AWS-CLIのセットアップをする。
-***
- aws configure
-***
+```console
+$ aws configure
+
 AWS Access Key ID: [Access Key]
 AWS Secret Access Key: [Secret Access Key]
 Default region name: ap-northeast-1
