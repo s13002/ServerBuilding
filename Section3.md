@@ -1,17 +1,61 @@
 # Section 3 Ansibleによる自動化とテスト
 
-毎回毎回手動で
-
-    yum install もにょもにょ
-
-とやるのも非効率なので、それらを自動化してくれるツールを使って今迄の作業を何回でもできるようにします。
-
-今回の講義ではAnsibleを使用します。
-
 ## 3-0 Ansibleのインストール
 
-[公式サイト](http://docs.ansible.com/intro_installation.html#latest-releases-via-apt-ubuntu)に手順載ってるのでそのとおりにやってください。
+コマンド実行
+***
+$ sudo apt-get install software-properties-common
+$ sudo apt-add-repository ppa:ansible/ansible
+$ sudo apt-get update
+$ sudo apt-get install ansible
+***
 
-## 3-1 ansibleでWordpressを動かす(2)を行なう
+### vagrantの初期設定
+作業用ディレクトリを作成して
+Vagrantfileを開き以下を追記する。
+```
+vagrant init
+```
 
-2-1でWordpressをNginx + PHP + MariaDBでインストールした手順をAnsibleのPlaybookで実行するように記述し、動かしてみてください。
+```
+config.vm.box = "CentOS7"
+config.vm.network "private_network",
+
+```
+
+### プロキシの設定
+Vagrantfileを開き以下を追記
+
+***
+if Vagrant.has_plugin?("vagrant-proxyconf")
+config.proxy.http = ENV['http_proxy']
+config.proxy.https = ENV['https_proxy']
+config.proxy.no_proxy = ENV['no_proxy']
+end
+
+***
+コマンド実行
+***
+vagrant plugin install vagrant-proxyconf
+vagrant plugin install vagrant-vbguest
+***
+
+Vagrantfileを開き追記
+```
+config.vm.provision "ansible" do |ansible|
+ansible.playbook = "playbook.yml"
+end
+```
+```
+vagrant provision
+```
+
+### playbookの作成
+playbookを作成。
+実行する。
+```
+ansible-playbook -i hosts -u vagrant -k playbook.yml
+```
+
+### Wordpress動作確認
+

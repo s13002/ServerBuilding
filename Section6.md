@@ -13,14 +13,91 @@
 
 ## 6-1	AWS EC2 + Ansible
 
-Amazon Elastic Computing Cloud(EC2)を使用してWordpressが動作するサーバーを作ります。
-
-3-1を終了している場合、Ansibleで構築できるようになっているのでAnsibleを使って構築する。
-終わってない場合は手動でがんばってね。
 
 ### AMI(Amazon Machine Image)を作る
+AWSアカウントの作成し、先生から鍵のようなものをメールでもらう。
+AWS-CLIのセットアップをする。
+***
+ aws configure
+***
+AWS Access Key ID: [Access Key]
+AWS Secret Access Key: [Secret Access Key]
+Default region name: ap-northeast-1
+Default output format [None]: [Enter]
+```
 
-環境の構築が終わったら、AMIを作成します。AMIを作成後、同じマシンを2つ起動して、コピーができていることを確認してください。
+
+### Amazon EC2 インスタンス用キーペアを作成
+Amazon EC2 のコンソールを開く
+左側の「キーペア」を開く
+「キーペアの作成」をクリックする
+
+### Amazon EC2 インスタンスの起動
+次のコマンドを実行してインスタンスを起動します
+```
+aws ec2 run-instances \
+--image-id ami-cbf90ecb \
+--key-name 'キーペア名' \
+--instance-type t2.micro \
+--region "ap-northeast-1" \
+--count 1
+```
+
+### Amazon EC2 インスタンスにNameタグ付け
+インスタンス起動コマンドを叩いた後にインスタンスID(InstanceId)を確認し、Nameタグをつけます
+```
+aws ec2 create-tags --resources 'インスタンスID' --tags Key=Name,Value='Nameタグ名'
+```
+
+### 作成したインスタンスにSSH接続
+IPv4のゲートウェイを`172.16.40.10`に変更しておきます。
+インスタンスのPublic IPを確認します
+```
+$ aws ec2 describe-instances --instance-ids 'インスタンスID' | grep PublicIp
+```
+キーのパーミッションを変更し、SSH接続をします
+```
+$ chmod 400 '.pemファイル'
+$ ssh -i '.pemファイル' ec2-user@パブリックIPアドレス
+```
+
+### playbookを編集
+playbook に内容を書き込む
+
+### hostsファイルの作成
+`vi hosts`を実行し、書き込む
+```
+[all]
+インスタンスのパブリックIP
+
+```
+
+### wordpressのインストール
+ansible-playbookコマンドを実行する
+```
+ansible-playbook -i hosts -u ec2 playbook.yml --private-key [.pemファイル]
+```
+ブラウザでサーバー`http://PublicIp`にアクセスして動作確認をします。
+
+### AMI(Amazon Machine Image)を作る
+環境の構築が終わったら、AMIを作成します。AMIを作成後、同じマシンを2つ起動して、コピーができていることを確認します。
+
+イメージの作成をクリックし、必要項目を入力します。
+
+ * イメージ名: [任意のイメージ名]
+ * イメージの説明: [任意のイメージの説明]
+
+イメージの作成をクリックします。
+作成したAMIを使って、同じマシンを起動するため、次のコマンドを実行
+```
+aws ec2 run-instances \
+--image-id '作成したAMIのイメージID' \
+--key-name 'キーペア名' \
+--instance-type t2.micro \
+--region "ap-northeast-1" \
+--count 1
+```
+
 
 ## 6-2 AWS EC2(AMIMOTO)
 
