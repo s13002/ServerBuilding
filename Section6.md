@@ -15,10 +15,10 @@
 
 
 ### AMI(Amazon Machine Image)を作る
-AWSアカウントの作成し、先生から鍵のようなものをメールでもらう。
+AWSアカウントの作成、先生から鍵のようなものをメールでもらう。
 AWS-CLIのセットアップをする。
 ```console
-$ aws configure
+ aws configure
 
 AWS Access Key ID: [Access Key]
 AWS Secret Access Key: [Secret Access Key]
@@ -53,7 +53,7 @@ aws ec2 create-tags --resources 'インスタンスID' --tags Key=Name,Value='Na
 IPv4のゲートウェイを`172.16.40.10`に変更しておきます。
 インスタンスのPublic IPを確認します
 ```
-$ aws ec2 describe-instances --instance-ids 'インスタンスID' | grep PublicIp
+$ aws ec2 describe-instances --instance-ids 'インスタンス' | grep PublicIp
 ```
 キーのパーミッションを変更し、SSH接続をします
 ```
@@ -83,9 +83,6 @@ ansible-playbook -i hosts -u ec2 playbook.yml --private-key [.pemファイル]
 環境の構築が終わったら、AMIを作成します。AMIを作成後、同じマシンを2つ起動して、コピーができていることを確認します。
 
 イメージの作成をクリックし、必要項目を入力します。
-
- * イメージ名: [任意のイメージ名]
- * イメージの説明: [任意のイメージの説明]
 
 イメージの作成をクリックします。
 作成したAMIを使って、同じマシンを起動するため、次のコマンドを実行
