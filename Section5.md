@@ -9,10 +9,10 @@
 ## 5-2 bindの設定
 
 ### named.confの編集
- master-named.confとslave-named.confを編集します。
+ master-named.confとslave-named.confを編集。
 
 ### ゾーンファイルの作成
- ゾーンファイルを参照してゾーンファイルを作成し、レコードを返すように設定します。
+ ゾーンファイルを参照してゾーンファイルを作成し、レコードを返すように設定。
 
 ### playbookの編集
 playbook.yamlを編集します。
@@ -22,11 +22,9 @@ playbook.yamlを編集します。
 ```
 vagrant reload
 vagrant provision
-
 ```
 
 ### 動作確認
-digコマンドして動作確認をします
 ```
 #マスターサーバー
 $ dig @マスターサーバーのIPアドレス ns s13002.com
