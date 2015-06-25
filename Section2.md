@@ -65,11 +65,11 @@ Nginx + PHP + MariaDBで動作させる
 # php-fpmをインストール
  * `sudo yum install php-fpm php-mbstring php-mysql`
  nginxの設定でphp-fpmが動くようにする
-```
+
 sudo vi /etc/nginx/conf.d/default.conf 
 
  付け加える
-
+```
 server {
 listen       80;
 server_name  localhost;
@@ -116,7 +116,7 @@ include        fastcgi_params;
 }
 
 sudo vi /etc/php-fpm.d/www.conf
-
+```
 書き換える
 user = nginx
 group = nginx
